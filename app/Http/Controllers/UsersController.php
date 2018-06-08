@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\User; // add
 
+use App\Micropost;
+
 class UsersController extends Controller
 {
     public function index()
@@ -30,7 +32,7 @@ class UsersController extends Controller
 
         $data += $this->counts($user);
 
-        return view('users.show', $date 
+        return view('users.show', $data 
         );
 
     }
