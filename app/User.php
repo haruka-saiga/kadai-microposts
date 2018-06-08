@@ -71,7 +71,8 @@ class User extends Authenticatable
         // stop following if following
         $this->followings()->detach($userId);
         return true;
-    } else {
+    }
+    else {
         // do nothing if not following
         return false;
     }
@@ -89,9 +90,9 @@ class User extends Authenticatable
         return Micropost::whereIn('user_id', $follow_user_ids);
     }
     
-    public function favotites()
+    public function favorites()
     {
-        return $this->belongsToMany(User::class, 'user_favorite', 'user_favorite', 'favorite_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_favorite', 'user_id', 'favorite_id')->withTimestamps();
     }
     
     public function favorite($favoriteID)
