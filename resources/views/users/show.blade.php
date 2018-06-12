@@ -12,7 +12,7 @@
                 </div>
             </div>
             @include('user_follow.follow_button', ['user' => $user])
-            @include('user_favorite.favorite_button', ['user' => $user])
+           
         </aside>
         <div class="col-xs-8">
             <ul class="nav nav-tabs nav-justified">
@@ -31,7 +31,9 @@
             @endif
             @if (count($microposts) > 0)
                 @include('microposts.microposts', ['microposts' => $microposts])
+           
             @endif
+            
         </div>
     </div>
 @endsection

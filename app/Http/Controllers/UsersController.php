@@ -12,7 +12,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::all();
         
         return view('users.index', [
             'users' => $users,
@@ -74,7 +74,7 @@ class UsersController extends Controller
 
         $data = [
             'user' => $user,
-            'users' => $favorites,
+            'microposts' => $favorites,
         ];
 
         $data += $this->counts($user);

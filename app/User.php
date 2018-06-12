@@ -88,40 +88,41 @@ class User extends Authenticatable
         $follow_user_ids = $this->followings()-> pluck('users.id')->toArray();
         $follow_user_ids[] = $this->id;
         return Micropost::whereIn('user_id', $follow_user_ids);
+        
     }
     
-    public function favorites()
+       public function favorites()
     {
-        return $this->belongsToMany(User::class, 'user_favorite', 'user_id', 'favorite_id')->withTimestamps();
+        return $this->belongsToMany(Micropost::class, 'user_favorite', 'user_id', 'micropost_id')->withTimestamps();
     }
     
-    public function favorite($favoriteID)
+    public function favorite($micropostId)
     {
-        $exist = $this->is_favorite($favoriteId);
+        $exist = $this->is_favorite($micropostId);
     // confirming that it is not you
-    $its_me = $this->id == $favoriteId;
+    $its_me = $this->id == $micropostId;
 
     if ($exist || $its_me) {
         // do nothing if already following
         return false;
     } else {
         // follow if not following
-        $this->favorites()->attach($favoriteId);
+        $this->favorites()->attach($micropostId);
         return true;
     }
     }
     
-    public function unfavorite($favoriteId)
+    public function unfavorite($micropostId)
 {
     // confirming if already following
-    $exist = $this->is_favorite($favoriteId);
+    $exist = $this->is_favorite($micropostId);
     // confirming that it is not you
-    $its_me = $this->id == $favoriteId;
+    $its_me = $this->id == $micropostId;
 
 
     if ($exist && !$its_me) {
         // stop following if following
-        $this->favorites()->detach($favoriteId);
+        $this->favorites()->detach($micropostId);
         return true;
     } else {
         // do nothing if not following
@@ -129,8 +130,8 @@ class User extends Authenticatable
     }
 }
 
-public function is_favorite($favoriteId) {
-    return $this->favorites()->where('favorite_id', $userId)->exists();
+public function is_favorite($micropostId) {
+    return $this->favorites()->where('micropost_id', $micropostId)->exists();
 }
 
 }
